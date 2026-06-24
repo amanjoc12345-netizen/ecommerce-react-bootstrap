@@ -1,27 +1,42 @@
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, Button, Badge } from "react-bootstrap";
 
-function Header() {
+function Header({ handleShow, cartCount = 0 }) {
   return (
     <>
-      <Navbar bg="black" variant="dark" >
-        <Container className="justify-content-center">
-          <Nav className = "gap-5 fs-5 fw-bold" >
-            <Nav.Link href="#" className="text-white">HOME</Nav.Link>
-            <Nav.Link href="#"className="text-white">STORE</Nav.Link>
-            <Nav.Link href="#"className="text-white">ABOUT</Nav.Link>
-          </Nav>
+      <Navbar bg="dark" variant="dark" expand="lg" className="py-3 sticky-top">
+        <Container>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mx-auto gap-5 custom-nav">
+              <Nav.Link className="text-white">
+                HOME
+              </Nav.Link>
+
+              <Nav.Link className="text-white fw-bold" active>
+                STORE
+              </Nav.Link>
+
+              <Nav.Link className="text-white">
+                ABOUT
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+
+          <Button
+            variant="outline-info"
+            className="cart-btn d-flex align-items-center"
+            onClick={handleShow}
+          >
+            Cart
+            <Badge bg="info" className="text-dark ms-2 fw-bold">
+              {cartCount}
+            </Badge>
+          </Button>
         </Container>
       </Navbar>
 
-      <div
-        style={{
-          backgroundColor: "grey",
-          color: "white",
-          textAlign: "center",
-          padding: "60px",
-        }}
-      >
-        <h1 style={{ fontSize: "70px" }}>The Generics</h1>
+      <div className="brand-banner">
+        <h1 className="brand-title">The Generics</h1>
       </div>
     </>
   );
