@@ -1,17 +1,19 @@
+import { useContext } from "react";
+import CartContext from "../store/CartContext";
 import { Offcanvas, Button, Form, Row, Col } from "react-bootstrap";
 
-function Cart({
-  show,
-  handleClose,
-  cartItems = [],
-  onRemoveItem,
-  onUpdateQuantity,
-  onPurchase,
-}) {
+function Cart({ show, handleClose }) {
+  const { cartItems, removeItem, updateQuantity, clearCart } = useContext(CartContext);
+
   const totalAmount = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
+
+  const handlePurchase = () => {
+    alert("Thanks for the purchase");
+    clearCart();
+  };
 
   return (
     <Offcanvas
@@ -83,7 +85,7 @@ function Cart({
                     min={1}
                     value={item.quantity}
                     onChange={(e) =>
-                      onUpdateQuantity(
+                      updateQuantity(
                         item.title,
                         parseInt(e.target.value) || 1
                       )
@@ -94,7 +96,7 @@ function Cart({
                     variant="danger"
                     size="sm"
                     className="cart-remove-btn text-uppercase"
-                    onClick={() => onRemoveItem(item.title)}
+                    onClick={() => removeItem(item.title)}
                   >
                     REMOVE
                   </Button>
@@ -115,7 +117,7 @@ function Cart({
             <div className="text-center mb-3">
               <Button
                 className="cart-purchase-btn w-100 py-3 text-uppercase fw-bold"
-                onClick={onPurchase}
+                onClick={handlePurchase}
               >
                 Purchase
               </Button>

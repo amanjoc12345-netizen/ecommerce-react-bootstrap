@@ -1,6 +1,11 @@
+import { useContext } from "react";
+import CartContext from "../store/CartContext";
 import { Navbar, Nav, Container, Button, Badge } from "react-bootstrap";
 
-function Header({ handleShow, cartCount = 0 }) {
+function Header({ handleShow }) {
+  const { cartItems } = useContext(CartContext);
+  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
   return (
     <>
       <Navbar bg="dark" variant="dark" expand="lg" className="py-3 sticky-top">
