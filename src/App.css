@@ -237,3 +237,179 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateY(0);
   }
 }
+
+/* About Section Styles */
+#about {
+  max-width: 900px;
+  margin: 0 auto;
+  font-size: 22px;
+}
+
+#about h2 {
+  font-family: var(--font-accent), 'Metal Mania', sans-serif;
+  text-align: center;
+  padding: 20px;
+  font-size: 30px;
+}
+
+#about img {
+  float: left;
+  margin: 20px 50px;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+#about p {
+  font-size: 17px;
+  margin: 20px;
+  color: #777;
+  line-height: 1.6;
+}
+
+#about div::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Header Home Page Buttons */
+.latest-album {
+  background: transparent;
+  border: 1px solid var(--primary-color);
+  padding: 12px 24px;
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  margin-top: 15px;
+}
+
+.latest-album:hover {
+  background-color: rgba(86, 204, 242, 0.1);
+  border-color: white;
+}
+
+.play-btn {
+  background: transparent;
+  border: 2px solid var(--primary-color);
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  padding-left: 5px; /* offset play icon alignment */
+}
+
+.play-btn:hover {
+  border-color: white;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Tours Section Styles */
+#tours {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+#tours h2 {
+  font-family: var(--font-accent), 'Metal Mania', sans-serif;
+  text-align: center;
+  font-size: 30px;
+  margin: 30px 0;
+}
+
+.tours-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tour-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 15px 10px;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease;
+}
+
+.tour-item:hover {
+  background-color: #f1f1f1;
+}
+
+.tour-date {
+  width: 15%;
+  font-weight: 600;
+  color: #333;
+}
+
+.tour-place {
+  width: 25%;
+  color: #555;
+}
+
+.tour-spec-place {
+  width: 45%;
+  color: #777;
+}
+
+.tour-item .buy-btn {
+  width: 15%;
+  background-color: var(--primary-color) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 700;
+  padding: 8px 12px !important;
+  border-radius: 6px !important;
+  transition: all 0.3s ease !important;
+}
+
+.tour-item .buy-btn:hover {
+  background-color: var(--primary-hover) !important;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .tour-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+    padding: 20px 10px;
+  }
+  .tour-date, .tour-place, .tour-spec-place, .tour-item .buy-btn {
+    width: 100% !important;
+  }
+}
+
+/* Footer Styles */
+.footer {
+  background-color: #56ccf2 !important;
+  color: white;
+  margin-top: 60px;
+}
+
+.footer-title {
+  font-family: var(--font-accent), 'Metal Mania', sans-serif;
+  font-size: 3rem !important;
+  letter-spacing: 2px;
+}
+
+.footer-icons ul li a img {
+  transition: transform 0.3s ease;
+}
+
+.footer-icons ul li a:hover img {
+  transform: scale(1.2);
+}

@@ -1,10 +1,13 @@
+import { Navbar, Nav, Container, Button, Badge } from "react-bootstrap";
+import { NavLink, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import CartContext from "../store/CartContext";
-import { Navbar, Nav, Container, Button, Badge } from "react-bootstrap";
 
 function Header({ handleShow }) {
   const { cartItems } = useContext(CartContext);
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   return (
     <>
@@ -13,15 +16,15 @@ function Header({ handleShow }) {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mx-auto gap-5 custom-nav">
-              <Nav.Link className="text-white">
+              <Nav.Link as={NavLink} to="/" end className="text-white">
                 HOME
               </Nav.Link>
 
-              <Nav.Link className="text-white fw-bold" active>
+              <Nav.Link as={NavLink} to="/store" className="text-white">
                 STORE
               </Nav.Link>
 
-              <Nav.Link className="text-white">
+              <Nav.Link as={NavLink} to="/about" className="text-white">
                 ABOUT
               </Nav.Link>
             </Nav>
@@ -40,8 +43,14 @@ function Header({ handleShow }) {
         </Container>
       </Navbar>
 
-      <div className="brand-banner">
+      <div className="brand-banner d-flex flex-column align-items-center">
         <h1 className="brand-title">The Generics</h1>
+        {isHomePage && (
+          <>
+            <button className="latest-album">Get our Latest Album</button>
+            <button className="play-btn">►</button>
+          </>
+        )}
       </div>
     </>
   );
