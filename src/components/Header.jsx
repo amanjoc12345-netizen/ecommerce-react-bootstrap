@@ -27,6 +27,10 @@ function Header({ handleShow }) {
               <Nav.Link as={NavLink} to="/about" className="text-white">
                 ABOUT
               </Nav.Link>
+
+              <Nav.Link as={NavLink} to="/movies" className="text-white">
+                MOVIES
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
 
