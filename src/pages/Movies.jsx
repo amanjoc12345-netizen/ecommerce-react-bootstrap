@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef, useEffect, useMemo } from "react"
 import { Container, Button, Spinner, Card, Row, Col, Alert, Form } from "react-bootstrap";
 
 // Memoized Movie Card to prevent redundant re-renders
-const MovieCard = React.memo(({ movie }) => {
+const MovieCard = React.memo(({ movie, onDelete }) => {
   return (
     <Col md={6} lg={4}>
       <Card className="movie-card h-100 border-0 p-3 shadow-sm">
@@ -17,9 +17,19 @@ const MovieCard = React.memo(({ movie }) => {
               day: "numeric",
             })}
           </Card.Subtitle>
-          <Card.Text className="text-muted flex-grow-1 overflow-auto movie-crawl" style={{ maxHeight: "150px" }}>
+          <Card.Text className="text-muted flex-grow-1 overflow-auto movie-crawl mb-4" style={{ maxHeight: "150px" }}>
             {movie.openingText}
           </Card.Text>
+          <div className="mt-auto text-end">
+            <Button 
+              variant="outline-danger" 
+              size="sm" 
+              onClick={() => onDelete(movie.id)}
+              className="fw-bold rounded-pill px-3 py-1 shadow-sm transition-all"
+            >
+              Delete
+            </Button>
+          </div>
         </Card.Body>
       </Card>
     </Col>
@@ -52,22 +62,25 @@ function Movies() {
     setError(null);
     
     try {
-      const response = await fetch("https://swapi.py4e.com/api/films/");
+      const response = await fetch("https://react-project-14d85-default-rtdb.firebaseio.com/movies.json");
       if (!response.ok) {
         throw new Error("Something went wrong ....Retrying");
       }
       
       const data = await response.json();
       
-      const transformedMovies = data.results.map((movieData) => {
-        return {
-          id: movieData.episode_id,
-          title: movieData.title,
-          openingText: movieData.opening_crawl,
-          releaseDate: movieData.release_date,
-        };
-      });
-      setMovies(transformedMovies);
+      const loadedMovies = [];
+      if (data) {
+        for (const key in data) {
+          loadedMovies.push({
+            id: key,
+            title: data[key].title,
+            openingText: data[key].openingText,
+            releaseDate: data[key].releaseDate,
+          });
+        }
+      }
+      setMovies(loadedMovies);
       setIsRetrying(false);
     } catch (err) {
       console.error("Fetch error details:", err);
@@ -93,6 +106,27 @@ function Movies() {
     setError("Retrying canceled.");
   }, []);
 
+  const deleteMovieHandler = useCallback(async (id) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`https://react-project-14d85-default-rtdb.firebaseio.com/movies/${id}.json`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Could not delete movie.");
+      }
+
+      setMovies((prevMovies) => prevMovies.filter((movie) => movie.id !== id));
+    } catch (err) {
+      console.error(err);
+      setError(err.message || "Failed to delete movie.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   // Fetch movies automatically on page load
   useEffect(() => {
     fetchMoviesHandler();
@@ -108,7 +142,7 @@ function Movies() {
   }, []);
 
   // Form submission handler
-  const submitHandler = useCallback((event) => {
+  const submitHandler = useCallback(async (event) => {
     event.preventDefault();
 
     const newMovieObj = {
@@ -117,13 +151,31 @@ function Movies() {
       releaseDate: releaseDateRef.current.value,
     };
 
-    console.log(newMovieObj);
+    try {
+      const response = await fetch("https://react-project-14d85-default-rtdb.firebaseio.com/movies.json", {
+        method: "POST",
+        body: JSON.stringify(newMovieObj),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    // Reset fields
-    titleRef.current.value = "";
-    openingTextRef.current.value = "";
-    releaseDateRef.current.value = "";
-  }, []);
+      if (!response.ok) {
+        throw new Error("Sending movie failed.");
+      }
+
+      // Reset fields
+      titleRef.current.value = "";
+      openingTextRef.current.value = "";
+      releaseDateRef.current.value = "";
+
+      // Fetch the updated movie list
+      fetchMoviesHandler();
+    } catch (err) {
+      console.error(err);
+      setError(err.message || "Failed to add movie.");
+    }
+  }, [fetchMoviesHandler]);
 
   // Memoized grid layout to avoid rebuilding cards unless the list changes
   const movieGridContent = useMemo(() => {
@@ -131,11 +183,11 @@ function Movies() {
     return (
       <Row className="g-4">
         {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard key={movie.id} movie={movie} onDelete={deleteMovieHandler} />
         ))}
       </Row>
     );
-  }, [movies]);
+  }, [movies, deleteMovieHandler]);
 
   return (
     <Container className="my-5">
