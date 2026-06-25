@@ -13,6 +13,7 @@ const Home = React.lazy(() => import("./pages/Home"));
 const About = React.lazy(() => import("./pages/About"));
 const Movies = React.lazy(() => import("./pages/Movies"));
 const ContactUs = React.lazy(() => import("./pages/ContactUs"));
+const ProductDetails = React.lazy(() => import("./pages/ProductDetails"));
 
 function App() {
   const [showCart, setShowCart] = useState(false);
@@ -34,6 +35,11 @@ function App() {
           <Route
             path="/store"
             element={<Products />}
+          />
+
+          <Route
+            path="/store/:productId"
+            element={<ProductDetails />}
           />
 
           <Route
