@@ -28,6 +28,10 @@ function Header({ handleShow }) {
                 ABOUT
               </Nav.Link>
 
+              <Nav.Link as={NavLink} to="/contact" className="text-white">
+                CONTACT US
+              </Nav.Link>
+
               <Nav.Link as={NavLink} to="/movies" className="text-white">
                 MOVIES
               </Nav.Link>

@@ -12,6 +12,7 @@ import {
 const Home = React.lazy(() => import("./pages/Home"));
 const About = React.lazy(() => import("./pages/About"));
 const Movies = React.lazy(() => import("./pages/Movies"));
+const ContactUs = React.lazy(() => import("./pages/ContactUs"));
 
 function App() {
   const [showCart, setShowCart] = useState(false);
@@ -38,6 +39,11 @@ function App() {
           <Route
             path="/about"
             element={<About />}
+          />
+
+          <Route
+            path="/contact"
+            element={<ContactUs />}
           />
 
           <Route
