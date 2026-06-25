@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect, useMemo } from "react";
-import { Container, Button, Spinner, Card, Row, Col, Alert } from "react-bootstrap";
+import { Container, Button, Spinner, Card, Row, Col, Alert, Form } from "react-bootstrap";
 
 // Memoized Movie Card to prevent redundant re-renders
 const MovieCard = React.memo(({ movie }) => {
@@ -36,6 +36,11 @@ function Movies() {
   
   const retryTimerRef = useRef(null);
 
+  // References for form inputs to optimize performance (no re-renders on keystroke)
+  const titleRef = useRef();
+  const openingTextRef = useRef();
+  const releaseDateRef = useRef();
+
   const fetchMoviesHandler = useCallback(async () => {
     // Clear any existing scheduled retry timer
     if (retryTimerRef.current) {
@@ -47,7 +52,7 @@ function Movies() {
     setError(null);
     
     try {
-      const response = await fetch("https://swapi.dev/api/films/");
+      const response = await fetch("https://swapi.py4e.com/api/films/");
       if (!response.ok) {
         throw new Error("Something went wrong ....Retrying");
       }
@@ -102,6 +107,24 @@ function Movies() {
     };
   }, []);
 
+  // Form submission handler
+  const submitHandler = useCallback((event) => {
+    event.preventDefault();
+
+    const newMovieObj = {
+      title: titleRef.current.value,
+      openingText: openingTextRef.current.value,
+      releaseDate: releaseDateRef.current.value,
+    };
+
+    console.log(newMovieObj);
+
+    // Reset fields
+    titleRef.current.value = "";
+    openingTextRef.current.value = "";
+    releaseDateRef.current.value = "";
+  }, []);
+
   // Memoized grid layout to avoid rebuilding cards unless the list changes
   const movieGridContent = useMemo(() => {
     if (movies.length === 0) return null;
@@ -116,10 +139,58 @@ function Movies() {
 
   return (
     <Container className="my-5">
+      {/* Add Movie Form Section */}
+      <Card 
+        className="mx-auto mb-5 p-4 border-0 shadow-sm" 
+        style={{ maxWidth: "600px", borderRadius: "12px", background: "white" }}
+      >
+        <Card.Body>
+          <Form onSubmit={submitHandler}>
+            <Form.Group className="mb-3 text-start" controlId="title">
+              <Form.Label className="fw-bold text-muted small text-uppercase">Title</Form.Label>
+              <Form.Control 
+                type="text" 
+                ref={titleRef} 
+                required 
+                placeholder="Enter movie title" 
+              />
+            </Form.Group>
+            
+            <Form.Group className="mb-3 text-start" controlId="opening-text">
+              <Form.Label className="fw-bold text-muted small text-uppercase">Opening Text</Form.Label>
+              <Form.Control 
+                as="textarea" 
+                rows={3} 
+                ref={openingTextRef} 
+                required 
+                placeholder="Enter opening crawl text" 
+              />
+            </Form.Group>
+            
+            <Form.Group className="mb-4 text-start" controlId="release-date">
+              <Form.Label className="fw-bold text-muted small text-uppercase">Release Date</Form.Label>
+              <Form.Control 
+                type="date" 
+                ref={releaseDateRef} 
+                required 
+              />
+            </Form.Group>
+            
+            <div className="text-center">
+              <Button 
+                type="submit" 
+                variant="info" 
+                className="px-5 py-2 fw-bold text-white add-movie-btn"
+              >
+                Add Movie
+              </Button>
+            </div>
+          </Form>
+        </Card.Body>
+      </Card>
+
+      {/* Fetch Control Section */}
       <div className="text-center mb-5">
-        <h2 className="fw-bold mb-4" style={{ letterSpacing: "2px" }}>
-          STAR WARS MOVIES
-        </h2>
         <div className="d-flex justify-content-center gap-3">
           <Button
             variant="info"
