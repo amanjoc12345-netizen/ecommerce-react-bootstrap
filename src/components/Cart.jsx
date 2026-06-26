@@ -121,6 +121,13 @@ function Cart({ show, handleClose }) {
               >
                 Purchase
               </Button>
+              <Button
+                variant="outline-secondary"
+                className="w-100 py-3 text-uppercase fw-bold mt-2"
+                onClick={handleClose}
+              >
+                Continue Shopping
+              </Button>
             </div>
           </div>
         )}

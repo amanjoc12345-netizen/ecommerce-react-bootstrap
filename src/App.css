@@ -534,3 +534,53 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 1px;
 }
 
+/* Auth Page Styles */
+.auth-card {
+  background-color: #38015c !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+}
+
+.auth-input {
+  background-color: #f1e7f5 !important;
+  border: 1px solid #38015c !important;
+  color: #38015c !important;
+}
+
+.auth-input:focus {
+  background-color: #ffffff !important;
+  border-color: #9f01ea !important;
+  box-shadow: 0 0 0 0.25rem rgba(159, 1, 234, 0.25) !important;
+}
+
+.auth-btn:hover {
+  background-color: #8701c4 !important;
+  border-color: #8701c4 !important;
+}
+
+.auth-toggle-btn {
+  color: #c291e2 !important;
+  transition: color 0.2s ease;
+}
+
+.auth-toggle-btn:hover {
+  color: #e5ccf4 !important;
+  text-decoration: underline !important;
+}
+
+.sending-request-loader {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+
