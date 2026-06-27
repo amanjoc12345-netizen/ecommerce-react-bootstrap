@@ -18,56 +18,68 @@ function Header({ handleShow }) {
         <Container>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mx-auto gap-5 custom-nav align-items-center">
-              <Nav.Link as={NavLink} to="/" end className="text-white">
-                HOME
-              </Nav.Link>
-
-              <Nav.Link as={NavLink} to="/store" className="text-white">
-                STORE
-              </Nav.Link>
-
-              <Nav.Link as={NavLink} to="/about" className="text-white">
-                ABOUT
-              </Nav.Link>
-
-              <Nav.Link as={NavLink} to="/contact" className="text-white">
-                CONTACT US
-              </Nav.Link>
-
+            <Nav className="mx-auto gap-4 custom-nav align-items-center">
               {isLoggedIn && (
-                <Nav.Link as={NavLink} to="/movies" className="text-white">
-                  MOVIES
-                </Nav.Link>
-              )}
+                <>
+                  <Nav.Link as={NavLink} to="/" end className="text-white">
+                    HOME
+                  </Nav.Link>
 
-              {!isLoggedIn ? (
-                <Nav.Link as={NavLink} to="/auth" className="text-white">
-                  LOGIN
-                </Nav.Link>
+                  <Nav.Link as={NavLink} to="/store" className="text-white">
+                    STORE
+                  </Nav.Link>
+
+                  <Nav.Link as={NavLink} to="/about" className="text-white">
+                    ABOUT
+                  </Nav.Link>
+
+                  <Nav.Link as={NavLink} to="/contact" className="text-white">
+                    CONTACT US
+                  </Nav.Link>
+
+                  <Nav.Link as={NavLink} to="/movies" className="text-white">
+                    MOVIES
+                  </Nav.Link>
+                </>
+              )}
+            </Nav>
+
+            <Nav className="ms-auto align-items-center gap-3">
+              {isLoggedIn ? (
+                <>
+                  <Nav.Link as={NavLink} to="/profile" className="text-white fw-semibold me-2">
+                    Profile
+                  </Nav.Link>
+                  <Button 
+                    variant="outline-light" 
+                    size="sm" 
+                    onClick={authCtx.logout} 
+                    className="logout-btn fw-semibold px-3 py-1"
+                    style={{ border: "1px solid white", borderRadius: "5px" }}
+                  >
+                    Logout
+                  </Button>
+                </>
               ) : (
-                <Button 
-                  variant="outline-warning" 
-                  size="sm" 
-                  onClick={authCtx.logout} 
-                  className="logout-btn ms-lg-3 fw-bold rounded-pill px-3"
-                >
-                  LOGOUT
-                </Button>
+                <Nav.Link as={NavLink} to="/auth" className="text-white fw-semibold">
+                  Login
+                </Nav.Link>
               )}
             </Nav>
           </Navbar.Collapse>
 
-          <Button
-            variant="outline-info"
-            className="cart-btn d-flex align-items-center"
-            onClick={handleShow}
-          >
-            Cart
-            <Badge bg="info" className="text-dark ms-2 fw-bold">
-              {cartCount}
-            </Badge>
-          </Button>
+          {isLoggedIn && (
+            <Button
+              variant="outline-info"
+              className="cart-btn d-flex align-items-center ms-3"
+              onClick={handleShow}
+            >
+              Cart
+              <Badge bg="info" className="text-dark ms-2 fw-bold">
+                {cartCount}
+              </Badge>
+            </Button>
+          )}
         </Container>
       </Navbar>
 

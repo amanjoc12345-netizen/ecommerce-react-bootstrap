@@ -17,6 +17,7 @@ const Movies = React.lazy(() => import("./pages/Movies"));
 const ContactUs = React.lazy(() => import("./pages/ContactUs"));
 const ProductDetails = React.lazy(() => import("./pages/ProductDetails"));
 const Auth = React.lazy(() => import("./pages/Auth"));
+const Profile = React.lazy(() => import("./pages/Profile"));
 
 function App() {
   const [showCart, setShowCart] = useState(false);
@@ -65,6 +66,11 @@ function App() {
           <Route
             path="/auth"
             element={!isLoggedIn ? <Auth /> : <Navigate to="/store" replace />}
+          />
+
+          <Route
+            path="/profile"
+            element={isLoggedIn ? <Profile /> : <Navigate to="/auth" replace />}
           />
 
           <Route
