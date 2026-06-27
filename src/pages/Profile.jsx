@@ -34,6 +34,7 @@ function Profile() {
         body: JSON.stringify({
           idToken: authCtx.token,
           password: enteredPassword,
+          newPassword: enteredPassword,
           returnSecureToken: true,
         }),
         headers: {
@@ -48,15 +49,18 @@ function Profile() {
         // Refresh token in context
         authCtx.login(data.idToken, authCtx.email);
         passwordInputRef.current.value = "";
+        alert("Password changed successfully!");
       } else {
         let errorMessage = "Password update failed!";
         if (data && data.error && data.error.message) {
           errorMessage = data.error.message;
         }
         setError(errorMessage);
+        alert(errorMessage);
       }
     } catch (err) {
       setError(err.message || "Something went wrong!");
+      alert(err.message || "Something went wrong!");
     } finally {
       setIsLoading(false);
     }

@@ -94,10 +94,14 @@ function Auth() {
         if (data && data.error && data.error.message) {
           errorMessage = data.error.message;
         }
-        setError(getFriendlyErrorMessage(errorMessage));
+        const friendlyError = getFriendlyErrorMessage(errorMessage);
+        setError(friendlyError);
+        alert(friendlyError);
       }
     } catch (err) {
-      setError(err.message || "Something went wrong! Please try again.");
+      const errorMsg = err.message || "Something went wrong! Please try again.";
+      setError(errorMsg);
+      alert(errorMsg);
     } finally {
       setIsLoading(false);
     }
