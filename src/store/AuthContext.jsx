@@ -9,6 +9,7 @@ const AuthContext = createContext({
 });
 
 export const AuthProvider = ({ children }) => {
+  // Load stored token and email from localStorage to maintain session across refreshes
   const initialToken = localStorage.getItem("token") || null;
   const initialEmail = localStorage.getItem("email") || null;
 
@@ -20,6 +21,7 @@ export const AuthProvider = ({ children }) => {
   const loginHandler = (token, email) => {
     setToken(token);
     setEmail(email);
+    // Persist token and email in localStorage
     localStorage.setItem("token", token);
     localStorage.setItem("email", email);
   };
@@ -27,6 +29,7 @@ export const AuthProvider = ({ children }) => {
   const logoutHandler = () => {
     setToken(null);
     setEmail(null);
+    // Clean up stored session in localStorage upon logout
     localStorage.removeItem("token");
     localStorage.removeItem("email");
   };
