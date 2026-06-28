@@ -1,9 +1,15 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import CartContext from "../store/CartContext";
 import { Offcanvas, Button, Form, Row, Col } from "react-bootstrap";
 
 function Cart({ show, handleClose }) {
-  const { cartItems, removeItem, updateQuantity, clearCart } = useContext(CartContext);
+  const { cartItems, removeItem, updateQuantity, clearCart, fetchCartItems } = useContext(CartContext);
+
+  useEffect(() => {
+    if (show && fetchCartItems) {
+      fetchCartItems();
+    }
+  }, [show, fetchCartItems]);
 
   const totalAmount = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,

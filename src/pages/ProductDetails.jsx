@@ -32,6 +32,20 @@ function ProductDetails() {
   // Find product by id
   const product = productsArr.find((p) => p.id === productId);
 
+  // State for active image
+  const [selectedImage, setSelectedImage] = useState(product?.imageUrl || "");
+
+  // Reset selected image when productId changes
+  useEffect(() => {
+    if (product) {
+      setSelectedImage(product.imageUrl);
+    }
+  }, [productId, product]);
+
+  // Image zoom state and handlers
+  const [zoomStyle, setZoomStyle] = useState({ transformOrigin: "center center", transform: "scale(1)" });
+  const [isZoomed, setIsZoomed] = useState(false);
+
   if (!product) {
     return (
       <Container className="my-5 py-5 text-center">
@@ -45,18 +59,6 @@ function ProductDetails() {
       </Container>
     );
   }
-
-  // State for active image
-  const [selectedImage, setSelectedImage] = useState(product.imageUrl);
-
-  // Reset selected image when productId changes
-  useEffect(() => {
-    setSelectedImage(product.imageUrl);
-  }, [productId, product]);
-
-  // Image zoom state and handlers
-  const [zoomStyle, setZoomStyle] = useState({ transformOrigin: "center center", transform: "scale(1)" });
-  const [isZoomed, setIsZoomed] = useState(false);
 
   const handleMouseMove = (e) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
