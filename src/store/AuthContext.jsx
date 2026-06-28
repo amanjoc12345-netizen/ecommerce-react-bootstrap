@@ -1,16 +1,16 @@
 import React, { createContext, useState } from "react";
 
 const AuthContext = createContext({
-  token: "",
-  email: "",
+  token: null,
+  email: null,
   isLoggedIn: false,
   login: (token, email) => {},
   logout: () => {},
 });
 
 export const AuthProvider = ({ children }) => {
-  const initialToken = localStorage.getItem("token") || "";
-  const initialEmail = localStorage.getItem("email") || "";
+  const initialToken = localStorage.getItem("token") || null;
+  const initialEmail = localStorage.getItem("email") || null;
 
   const [token, setToken] = useState(initialToken);
   const [email, setEmail] = useState(initialEmail);
@@ -25,8 +25,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logoutHandler = () => {
-    setToken("");
-    setEmail("");
+    setToken(null);
+    setEmail(null);
     localStorage.removeItem("token");
     localStorage.removeItem("email");
   };

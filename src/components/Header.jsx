@@ -1,5 +1,5 @@
 import { Navbar, Nav, Container, Button, Badge } from "react-bootstrap";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import CartContext from "../store/CartContext";
 import AuthContext from "../store/AuthContext";
@@ -9,6 +9,7 @@ function Header({ handleShow }) {
   const authCtx = useContext(AuthContext);
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const location = useLocation();
+  const navigate = useNavigate();
   const isHomePage = location.pathname === "/";
   const isLoggedIn = authCtx.isLoggedIn;
 
@@ -53,7 +54,10 @@ function Header({ handleShow }) {
                   <Button 
                     variant="outline-light" 
                     size="sm" 
-                    onClick={authCtx.logout} 
+                    onClick={() => {
+                      authCtx.logout();
+                      navigate("/auth");
+                    }} 
                     className="logout-btn fw-semibold px-3 py-1"
                     style={{ border: "1px solid white", borderRadius: "5px" }}
                   >
